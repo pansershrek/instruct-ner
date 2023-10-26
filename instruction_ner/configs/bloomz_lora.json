@@ -30,7 +30,7 @@
     "load_in_8bit": true,
     "only_target_loss": true,
     "model_name": "bigscience/bloomz-3b",
-    "is_adapter": true,
+    "is_adapter": false,
     "max_source_tokens_count": 256,
     "max_target_tokens_count": 512
 }
