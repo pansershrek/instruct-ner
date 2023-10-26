@@ -6,7 +6,7 @@
         "gradient_accumulation_steps": 8,
         "logging_steps": 1,
         "learning_rate": 0.0003,
-        "num_train_epochs": 1,
+        "num_train_epochs": 8,
         "lr_scheduler_type": "linear",
         "warmup_steps": 50,
         "fp16": true,
@@ -27,7 +27,7 @@
         "task_type": "CAUSAL_LM"
     },
     "load_in_8bit": true,
-    "only_target_loss": true,
+    "only_target_loss": false,
     "model_name": "bigscience/bloomz-3b",
     "is_adapter": false,
     "max_source_tokens_count": 256,
