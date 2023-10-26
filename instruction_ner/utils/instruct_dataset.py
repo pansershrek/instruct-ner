@@ -35,7 +35,7 @@ class InstructDataset(Dataset):
         self.processed_instructions = []
 
         for instruction in tqdm(self.instructions):
-            if self.model_type == 'llama':
+            if self.model_type in ('llama', 'bloomz'):
                 tensors = self.convert_instruction_causal(instruction)
             elif self.model_type == 't5':
                 tensors = self.convert_instruction_seq2seq(instruction)

@@ -100,6 +100,10 @@ def train(
             'data_collator': DataCollatorForTokenClassification,
             'model': AutoModelForCausalLM
         },
+        'bloomz': {
+            'data_collator': DataCollatorForTokenClassification,
+            'model': AutoModelForCausalLM
+        },
         't5': {
             'data_collator': DataCollatorForSeq2Seq,
             'model': T5ForConditionalGeneration
@@ -117,7 +121,7 @@ def train(
                 peft_config.base_model_name_or_path,
                 load_in_8bit=True,
                 device_map='auto',
-                use_flash_attention_2=True
+                #use_flash_attention_2=True
             )
             model = fix_model(model, tokenizer, use_resize=False)
             model = prepare_model_for_kbit_training(model)
@@ -127,7 +131,7 @@ def train(
                 model_name,
                 load_in_8bit=True,
                 device_map='auto',
-                use_flash_attention_2=True
+                #use_flash_attention_2=True
             )
             model = fix_model(model, tokenizer, use_resize=False)
             model = prepare_model_for_kbit_training(model)
@@ -181,13 +185,13 @@ def train(
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_name", default='rudrec', type=str, help='name of dataset')
+    parser.add_argument("--dataset_name", default='conll2003', type=str, help='name of dataset')
     parser.add_argument("--data_path", default='data/rudrec/rudrec_annotated.json', type=str, help='train file_path')
     parser.add_argument("--output_dir", default='models/', type=str, help='output_dir')
     parser.add_argument("--test_size", default=0.3, type=float, help='test_size')
     parser.add_argument("--random_seed", default=42, type=int, help='random_seed')
-    parser.add_argument("--config_file", default='configs/llama_7b_lora.json', type=str, help='path to config file')
-    parser.add_argument("--model_type", default='llama', type=str, help='model type')
+    parser.add_argument("--config_file", default='configs/bloomz_lora.json', type=str, help='path to config file')
+    parser.add_argument("--model_type", default='bloomz', type=str, help='model type')
     parser.add_argument("--max_instances", default=-1, type=int, help='max number of instructions')
     parser.add_argument("--push_to_hub", default=False, type=bool, help='push to hugginface hub')
     arguments = parser.parse_args()
