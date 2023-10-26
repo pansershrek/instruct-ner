@@ -57,21 +57,21 @@ def train(
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer = fix_tokenizer(tokenizer)
 
-    # def compute_metrics(eval_prediction: EvalPrediction, tokenizer=tokenizer):
-    #     predictions = np.argmax(eval_prediction.predictions, axis=-1)
-    #     labels = eval_prediction.label_ids
+    def compute_metrics(eval_prediction: EvalPrediction, tokenizer=tokenizer):
+        predictions = np.argmax(eval_prediction.predictions, axis=-1)
+        labels = eval_prediction.label_ids
 
-    #     extracted_entities = []
-    #     target_entities = []
-    #     for ind, pred in enumerate(predictions):
-    #         non_masked_indices = (labels[ind] != -100)
-    #         pred = tokenizer.decode(pred, skip_special_tokens=True)
-    #         label = tokenizer.decode(labels[ind][non_masked_indices], skip_special_tokens=True)
+        extracted_entities = []
+        target_entities = []
+        for ind, pred in enumerate(predictions):
+            non_masked_indices = (labels[ind] != -100)
+            pred = tokenizer.decode(pred, skip_special_tokens=True)
+            label = tokenizer.decode(labels[ind][non_masked_indices], skip_special_tokens=True)
 
-    #         extracted_entities.append(extract_classes(pred))
-    #         target_entities.append(extract_classes(label))
+            extracted_entities.append(extract_classes(pred))
+            target_entities.append(extract_classes(label))
 
-    #     return calculate_metrics(extracted_entities, target_entities, return_only_f1=True)
+        return calculate_metrics(extracted_entities, target_entities, return_only_f1=True)
     
     only_target_loss = config.get("only_target_loss", True)
     max_source_tokens_count = config["max_source_tokens_count"]
@@ -155,7 +155,7 @@ def train(
     
     training_args = TrainingArguments(
         output_dir=output_dir,
-        #save_total_limit=1,
+        save_total_limit=1,
         #load_best_model_at_end=True,
         report_to='wandb',
         ddp_find_unused_parameters=None,
@@ -170,7 +170,7 @@ def train(
         eval_dataset=val_dataset,
         callbacks=[SavePeftModelCallback],
         data_collator=data_collator,
-        # compute_metrics=compute_metrics
+        compute_metrics=compute_metrics
     )
     
     with wandb.init(project="Instruction NER") as run:
@@ -205,7 +205,7 @@ if __name__ == "__main__":
             max_instances=arguments.max_instances,
             test_size=arguments.test_size,
             random_seed=arguments.random_seed
-        )       
+        )
     elif arguments.dataset_name =='nerel_bio':
         from utils.nerel_bio.nerel_reader import create_instruct_dataset
         train_path = os.path.join(arguments.data_path, 'train')
@@ -227,4 +227,3 @@ if __name__ == "__main__":
         config_file=arguments.config_file,
         push_to_hub=arguments.push_to_hub
     )
-    
