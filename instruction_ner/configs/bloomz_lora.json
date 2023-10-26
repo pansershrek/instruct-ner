@@ -12,7 +12,8 @@
         "fp16": true,
         "bf16": false,
         "torch_compile": false,
-        "optim": "adamw_torch"
+        "optim": "adamw_torch",
+        "eval_accumulation_steps": 16
     },
     "lora": {
         "r": 8,
