@@ -36,36 +36,6 @@ class SavePeftModelCallback(TrainerCallback):
         kwargs["model"].save_pretrained(peft_model_path)
         return control
 
-def preprocess_logits_for_metrics(logits, labels):
-    """
-    Original Trainer may have a memory leak.
-    This is a workaround to avoid storing too many tensors that are not needed.
-    """
-    pred_ids = torch.argmax(logits[0], dim=-1)
-    return pred_ids, labels
-
-def compute_metrics(eval_prediction: EvalPrediction, tokenizer=tokenizer):
-    #predictions = np.argmax(eval_prediction.predictions, axis=-1)
-    #labels = eval_prediction.label_ids
-
-    predictions = eval_prediction.pred_ids
-    labels = eval_prediction.labels
-
-    print("predictions", predictions.shape, flush=True)
-    print("labels", labels.shape, flush=True)
-
-    extracted_entities = []
-    target_entities = []
-    for ind, pred in enumerate(predictions):
-        non_masked_indices = (labels[ind] != -100)
-        pred = tokenizer.decode(pred, skip_special_tokens=True)
-        label = tokenizer.decode(labels[ind][non_masked_indices], skip_special_tokens=True)
-
-        extracted_entities.append(extract_classes(pred))
-        target_entities.append(extract_classes(label))
-
-    return calculate_metrics(extracted_entities, target_entities, return_only_f1=True)
-
 def train(
     train_instructions: list[Instruction],
     test_instructions: list[Instruction],
@@ -85,6 +55,36 @@ def train(
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer = fix_tokenizer(tokenizer)
+
+    def preprocess_logits_for_metrics(logits, labels):
+        """
+        Original Trainer may have a memory leak.
+        This is a workaround to avoid storing too many tensors that are not needed.
+        """
+        pred_ids = torch.argmax(logits[0], dim=-1)
+        return pred_ids, labels
+
+    def compute_metrics(eval_prediction: EvalPrediction, tokenizer=tokenizer):
+        #predictions = np.argmax(eval_prediction.predictions, axis=-1)
+        #labels = eval_prediction.label_ids
+
+        predictions = eval_prediction.pred_ids
+        labels = eval_prediction.labels
+
+        print("predictions", predictions.shape, flush=True)
+        print("labels", labels.shape, flush=True)
+
+        extracted_entities = []
+        target_entities = []
+        for ind, pred in enumerate(predictions):
+            non_masked_indices = (labels[ind] != -100)
+            pred = tokenizer.decode(pred, skip_special_tokens=True)
+            label = tokenizer.decode(labels[ind][non_masked_indices], skip_special_tokens=True)
+
+            extracted_entities.append(extract_classes(pred))
+            target_entities.append(extract_classes(label))
+
+        return calculate_metrics(extracted_entities, target_entities, return_only_f1=True)
 
     only_target_loss = config.get("only_target_loss", True)
     max_source_tokens_count = config["max_source_tokens_count"]
