@@ -189,6 +189,7 @@ def train(
     with wandb.init(project="Instruction NER") as run:
         model.print_trainable_parameters()
         trainer.train()
+        torch.save(model.state_dict(), f"final_{model_type}.pth")
         if 'llama2' in config_file:
             model_type = 'llama2'
         if push_to_hub:
