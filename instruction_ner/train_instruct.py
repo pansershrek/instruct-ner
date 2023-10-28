@@ -167,7 +167,7 @@ def train(
 
     training_args = TrainingArguments(
         output_dir=output_dir,
-        save_total_limit=8,
+        #save_total_limit=8,
         #load_best_model_at_end=True,
         report_to='wandb',
         ddp_find_unused_parameters=None,
