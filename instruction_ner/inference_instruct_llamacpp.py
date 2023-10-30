@@ -91,7 +91,7 @@ if __name__ == "__main__":
         input_ids = tokenizer.encode(
             instruction['source']
         )
-        input_ids.append(tokenizer.token_eos())
+        input_ids.append(tokenizer.token_eos)
         generator = model.generate(
                 input_ids,
                 generation_config=generation_config,
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         completion_tokens = []
         for i, token in enumerate(generator):
             completion_tokens.append(token)
-            if token == model.token_eos() or (max_new_tokens is not None and i >= max_new_tokens):
+            if token == tokenizer.token_eos or (max_new_tokens is not None and i >= max_new_tokens):
                 break
 
         completion_tokens = model.detokenize(completion_tokens).decode("utf-8")
