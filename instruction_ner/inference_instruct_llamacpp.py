@@ -21,7 +21,7 @@ from peft import (
     LoraConfig, PeftConfig, PeftModel, get_peft_model,
     prepare_model_for_kbit_training
 )
-
+import torch
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
