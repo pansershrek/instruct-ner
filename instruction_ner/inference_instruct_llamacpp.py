@@ -85,8 +85,10 @@ if __name__ == "__main__":
     target_list = []
     instruction_ids = []
     sources = []
-
+    step = 0
     for instruction in tqdm(test_dataset):
+        print(f"Step: {step}", flush=True)
+        step += 1
         #input_ids = model.tokenize(instruction['source'])
         input_ids = tokenizer.encode(
             instruction['source']
