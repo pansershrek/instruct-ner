@@ -50,7 +50,7 @@ if __name__ == "__main__":
         model,
         "/home/admin/instruct-ner/instruction_ner/models/checkpoint-219",
     )
-
+    model = model.merge_and_unload()
     max_new_tokens = arguments.max_new_tokens
 
     generation_config = GenerationConfig(
