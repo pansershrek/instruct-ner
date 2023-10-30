@@ -36,8 +36,8 @@ if __name__ == "__main__":
 
     model = AutoModelForCausalLM.from_pretrained(
         arguments.model_name,
-        load_in_8bit=True,
-        device_map='cuda:0',
+        #load_in_8bit=True,
+        device_map='cpu',
         #n_gpu_layers = 35,
         #n_ctx=2048,
         #n_parts=1,
