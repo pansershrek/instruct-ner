@@ -88,7 +88,9 @@ if __name__ == "__main__":
 
     for instruction in tqdm(test_dataset):
         #input_ids = model.tokenize(instruction['source'])
-        input_ids = tokenizer.encode(input_ids, skip_special_tokens=True)
+        input_ids = tokenizer.encode(
+            instruction['source']
+        )
         input_ids.append(tokenizer.token_eos())
         generator = model.generate(
                 input_ids,
