@@ -95,7 +95,6 @@ if __name__ == "__main__":
         generator = model.generate(
                 input_ids=input_ids,
                 generation_config=generation_config,
-                reset=True,
         )
 
         completion_tokens = []
