@@ -4,7 +4,7 @@ import argparse
 import pandas as pd
 from tqdm import tqdm
 from transformers import GenerationConfig
-from llama_cpp import Llama
+#from llama_cpp import Llama
 from utils.rudrec.rudrec_reader import create_train_test_instruct_datasets
 from utils.nerel_bio.nerel_reader import create_instruct_dataset
 from utils.conll2003.conll_reader import create_instruct_dataset as create_instruct_dataset_conll
