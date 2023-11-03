@@ -114,13 +114,9 @@ if __name__ == "__main__":
             early_stopping = True
         )
 
-        generator = model.generate(
-                input_ids=torch.LongTensor(input_ids).view(1, -1),
-                generation_config=generation_config,
-        )
 
         completion_tokens = []
-        for i, token in enumerate(generator):
+        for i, token in enumerate(generation_output):
             completion_tokens.append(token)
             if token == tokenizer.token_eos or (max_new_tokens is not None and i >= max_new_tokens):
                 break
