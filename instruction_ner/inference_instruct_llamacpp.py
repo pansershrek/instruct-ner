@@ -125,7 +125,7 @@ if __name__ == "__main__":
         completion_tokens = generation_output.sequences[0]
 
         completion_tokens = tokenizer.decode(completion_tokens, skip_special_tokens=True).strip()
-        extracted_list.append(extract_classes(completion_tokens), ENTITY_TYPES)
+        extracted_list.append(extract_classes(completion_tokens, ENTITY_TYPES))
         instruction_ids.append(instruction['id'])
         target_list.append(instruction['raw_entities'])
 
