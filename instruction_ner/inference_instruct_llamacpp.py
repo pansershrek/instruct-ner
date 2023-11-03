@@ -90,10 +90,29 @@ if __name__ == "__main__":
         print(f"Step: {step}", flush=True)
         step += 1
         #input_ids = model.tokenize(instruction['source'])
-        input_ids = tokenizer.encode(
-            instruction['source']
+        #input_ids = tokenizer.encode(
+        #    instruction['source']
+        #)
+        input_ids = tokenizer(
+            instruction['source'], return_tensors="pt"
         )
         input_ids.append(tokenizer.eos_token_id)
+        generate_params = {
+            "input_ids": input_ids,
+            "generation_config": generation_config,
+            "return_dict_in_generate": True,
+            "output_scores": True,
+            "max_new_tokens": 64,
+        }
+        generation_output = model.generate(
+            input_ids=input_ids,
+            generation_config=generation_config,
+            return_dict_in_generate=True,
+            output_scores=True,
+            max_length=max_new_tokens,
+            early_stopping = True
+        )
+
         generator = model.generate(
                 input_ids=torch.LongTensor(input_ids).view(1, -1),
                 generation_config=generation_config,
