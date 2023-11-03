@@ -50,7 +50,7 @@ if __name__ == "__main__":
         model,
         "/home/admin/instruct-ner/instruction_ner/models/checkpoint-219",
     )
-    model = model.merge_and_unload()
+    #model = model.merge_and_unload()
     max_new_tokens = arguments.max_new_tokens
 
     generation_config = GenerationConfig(
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         #        break
         completion_tokens = generation_output.sequences[0]
 
-        completion_tokens = tokenizer.decode(s, skip_special_tokens=True).strip()
+        completion_tokens = tokenizer.decode(completion_tokens, skip_special_tokens=True).strip()
         extracted_list.append(extract_classes(completion_tokens), ENTITY_TYPES)
         instruction_ids.append(instruction['id'])
         target_list.append(instruction['raw_entities'])
