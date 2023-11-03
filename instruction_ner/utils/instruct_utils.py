@@ -1,6 +1,11 @@
+# MODEL_INPUT_TEMPLATE = {
+#             'prompts_input': "### Задание: {instruction}\n### Вход: {inp}\n### Ответ: ",
+#             'output_separator':  "Ответ: "        
+#         }
+
 MODEL_INPUT_TEMPLATE = {
-            'prompts_input': "### Задание: {instruction}\n### Вход: {inp}\n### Ответ: ",
-            'output_separator':  "Ответ: "        
+            'prompts_input': "### Task: {instruction}\n### Input: {inp}\n### Output: ",
+            'output_separator':  "Output: "        
         }
 
 
