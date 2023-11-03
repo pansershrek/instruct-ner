@@ -115,11 +115,12 @@ if __name__ == "__main__":
         )
 
 
-        completion_tokens = []
-        for i, token in enumerate(generation_output):
-            completion_tokens.append(token)
-            if token == tokenizer.token_eos or (max_new_tokens is not None and i >= max_new_tokens):
-                break
+        #completion_tokens = []
+        #for i, token in enumerate(generation_output):
+        #    completion_tokens.append(token)
+        #    if token == tokenizer.token_eos or (max_new_tokens is not None and i >= max_new_tokens):
+        #        break
+        completion_tokens = generation_output.sequences[0]
 
         completion_tokens = model.detokenize(completion_tokens).decode("utf-8")
         extracted_list.append(extract_classes(completion_tokens), ENTITY_TYPES)
