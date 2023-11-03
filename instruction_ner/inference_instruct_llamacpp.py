@@ -36,8 +36,8 @@ if __name__ == "__main__":
 
     model = AutoModelForCausalLM.from_pretrained(
         arguments.model_name,
-        #load_in_8bit=True,
-        device_map='cpu',
+        load_in_8bit=True,
+        device_map='cuda:0',
         #n_gpu_layers = 35,
         #n_ctx=2048,
         #n_parts=1,
@@ -86,6 +86,7 @@ if __name__ == "__main__":
     instruction_ids = []
     sources = []
     step = 0
+    device = torch.device("cuda:0")
     for instruction in tqdm(test_dataset):
         print(f"Step: {step}", flush=True)
         step += 1
@@ -97,6 +98,7 @@ if __name__ == "__main__":
             instruction['source']+tokenizer.eos_token, return_tensors="pt"
         )
         input_ids = input_ids["input_ids"]
+        input_ids = input_ids.to(device)
         #input_ids.append(tokenizer.eos_token_id)
         generate_params = {
             "input_ids": input_ids,
@@ -122,7 +124,7 @@ if __name__ == "__main__":
         #        break
         completion_tokens = generation_output.sequences[0]
 
-        completion_tokens = model.detokenize(completion_tokens).decode("utf-8")
+        completion_tokens = tokenizer.decode(s, skip_special_tokens=True).strip()
         extracted_list.append(extract_classes(completion_tokens), ENTITY_TYPES)
         instruction_ids.append(instruction['id'])
         target_list.append(instruction['raw_entities'])
