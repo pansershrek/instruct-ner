@@ -94,9 +94,9 @@ if __name__ == "__main__":
         #    instruction['source']
         #)
         input_ids = tokenizer(
-            instruction['source'], return_tensors="pt"
+            instruction['source']+tokenizer.eos_token, return_tensors="pt"
         )
-        input_ids.append(tokenizer.eos_token_id)
+        #input_ids.append(tokenizer.eos_token_id)
         generate_params = {
             "input_ids": input_ids,
             "generation_config": generation_config,
