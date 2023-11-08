@@ -1,8 +1,8 @@
 {
     "trainer": {
-        "evaluation_strategy": "epoch",
+        //"evaluation_strategy": "epoch",
         "per_device_train_batch_size": 8,
-        "per_device_eval_batch_size": 8,
+        //"per_device_eval_batch_size": 8,
         "gradient_accumulation_steps": 8,
         "logging_steps": 1,
         "learning_rate": 0.0003,
@@ -14,7 +14,7 @@
         "bf16": false,
         "torch_compile": false,
         "optim": "adamw_torch",
-        "eval_accumulation_steps": 16
+        //"eval_accumulation_steps": 16
     },
     "lora": {
         "r": 8,
