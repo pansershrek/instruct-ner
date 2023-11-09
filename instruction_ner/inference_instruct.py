@@ -126,10 +126,17 @@ if __name__ == "__main__":
 
     for source in tqdm(sources):
         input_ids = tokenizer(source, return_tensors="pt", padding=True)["input_ids"].cuda()
+        generate_params = {
+            "input_ids": input_ids,
+            "generation_config": generation_config,
+            "return_dict_in_generate": True,
+            "output_scores": True,
+            "max_new_tokens": 64,
+        }
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
-                generation_config=generation_config,
+                generation_config=generate_params,
                 return_dict_in_generate=True,
                 eos_token_id=tokenizer.eos_token_id,
                 early_stopping=True,
