@@ -124,10 +124,10 @@ if __name__ == "__main__":
             #epsilon_cutoff = 0.1,
             length_penalty = -10,
             eos_token_id=tokenizer.eos_token_id,
-            "return_dict_in_generate": True,
-            "output_scores": True,
-            "max_new_tokens": 64,
-            "input_ids": input_ids
+            return_dict_in_generate=True,
+            output_scores=True,
+            max_new_tokens=64,
+            input_ids=input_ids
         )
         with torch.no_grad():
             generation_output = model.generate(
