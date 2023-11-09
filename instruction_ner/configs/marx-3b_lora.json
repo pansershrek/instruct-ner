@@ -1,0 +1,35 @@
+{
+    "trainer": {
+        "per_device_train_batch_size": 8,
+        "gradient_accumulation_steps": 8,
+        "logging_steps": 1,
+        "learning_rate": 0.0003,
+        "save_strategy": "epoch",
+        "num_train_epochs": 8,
+        "lr_scheduler_type": "linear",
+        "warmup_steps": 50,
+        "fp16": true,
+        "bf16": false,
+        "torch_compile": false,
+        "optim": "adamw_torch"
+    },
+    "lora": {
+        "r": 8,
+        "lora_alpha": 16,
+        "lora_dropout": 0.05,
+        "bias": "none",
+        "target_modules": [
+            "query_key_value", "dense",
+            "dense_h_to_4h", "dense_4h_to_h",
+            "lm_head"
+        ],
+        "task_type": "CAUSAL_LM"
+    },
+    "load_in_8bit": true,
+    "only_target_loss": false,
+    "model_name": "acrastt/Marx-3B-V2",
+    "is_adapter": false,
+    "max_source_tokens_count": 256,
+    "max_target_tokens_count": 512
+}
+
