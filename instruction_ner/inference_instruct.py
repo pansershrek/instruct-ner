@@ -30,7 +30,7 @@ if __name__ == "__main__":
     parser.add_argument("--prediction_path", default='marx_prediction.json', type=str, help='path for saving prediction')
     parser.add_argument("--max_instances", default=-1, type=int, help='max number of instruction')
     parser.add_argument("--batch_size", default=4, type=int, help='number of instructions in batch')
-    parser.add_argument("--peft_config", default="/home/admin/instruct-ner/instruction_ner/marx_models/checkpoint-872", type=str, help="Path to peft config")
+    parser.add_argument("--peft_config", default="", type=str, help="Path to peft config")
     arguments = parser.parse_args()
 
     # assert arguments.dataset_name in SUPPORTED_DATASETS, f'expected dataset name from {SUPPORTED_DATASETS}'
@@ -69,7 +69,6 @@ if __name__ == "__main__":
         arguments.peft_config,
     )
     #model = model.merge_and_unload()
-    max_new_tokens = arguments.max_new_tokens
 
     generation_config = GenerationConfig(
         temperature=0.1,
@@ -125,7 +124,7 @@ if __name__ == "__main__":
     sources = list(batch(sources, n=arguments.batch_size))
 
     for source in tqdm(sources):
-        input_ids = tokenizer(source, return_tensors="pt", padding=True)["input_ids"].cuda()
+        input_ids = tokenizer(source, return_tensors="pt")["input_ids"].cuda()
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
