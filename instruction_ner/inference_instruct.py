@@ -142,6 +142,9 @@ if __name__ == "__main__":
             string_output = tokenizer.decode(s, skip_special_tokens=True)
             extracted_list.append(extract_classes(string_output, ENTITY_TYPES))
 
+    print("instruction_ids", len(np.concatenate(instruction_ids)), flush=True)
+    print("extracted_list", len(extracted_list), flush=True)
+    print("target_list", len(np.concatenate(target_list)), flush=True)
     pd.DataFrame({
         'id': np.concatenate(instruction_ids),
         'extracted': extracted_list,
