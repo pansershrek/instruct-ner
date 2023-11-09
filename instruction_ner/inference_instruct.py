@@ -62,6 +62,7 @@ if __name__ == "__main__":
         #use_mmap=False,
     )
     tokenizer = AutoTokenizer.from_pretrained(arguments.model_name)
+    tokenizer.pad_token = tokenizer.eos_token
 
     model = prepare_model_for_kbit_training(model)
     model = PeftModel.from_pretrained(
