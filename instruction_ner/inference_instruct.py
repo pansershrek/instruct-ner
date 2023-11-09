@@ -124,7 +124,7 @@ if __name__ == "__main__":
     sources = list(batch(sources, n=arguments.batch_size))
 
     for source in tqdm(sources):
-        input_ids = tokenizer(source, return_tensors="pt")["input_ids"].cuda()
+        input_ids = tokenizer(source, return_tensors="pt", padding=True)["input_ids"].cuda()
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
