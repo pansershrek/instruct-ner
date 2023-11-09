@@ -71,19 +71,6 @@ if __name__ == "__main__":
     )
     #model = model.merge_and_unload()
 
-    generation_config = GenerationConfig(
-        temperature=0.1,
-        top_p=0.75,
-        top_k=40,
-        num_beams=4,
-        early_stopping = True,
-        no_repeat_ngram_size = 3,
-        penalty_alpha = 0.6,
-        #epsilon_cutoff = 0.1,
-        length_penalty = -10,
-        eos_token_id=tokenizer.eos_token_id
-    )
-
     model.eval()
     model = torch.compile(model)
 
@@ -126,17 +113,26 @@ if __name__ == "__main__":
 
     for source in tqdm(sources):
         input_ids = tokenizer(source, return_tensors="pt", padding=True)["input_ids"].cuda()
-        generate_params = {
-            "input_ids": input_ids,
-            "generation_config": generation_config,
+        generation_config = GenerationConfig(
+            temperature=0.1,
+            top_p=0.75,
+            top_k=40,
+            num_beams=4,
+            early_stopping = True,
+            no_repeat_ngram_size = 3,
+            penalty_alpha = 0.6,
+            #epsilon_cutoff = 0.1,
+            length_penalty = -10,
+            eos_token_id=tokenizer.eos_token_id,
             "return_dict_in_generate": True,
             "output_scores": True,
             "max_new_tokens": 64,
-        }
+            "input_ids": input_ids
+        )
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
-                generation_config=generate_params,
+                generation_config=generation_config,
                 return_dict_in_generate=True,
                 eos_token_id=tokenizer.eos_token_id,
                 early_stopping=True,
