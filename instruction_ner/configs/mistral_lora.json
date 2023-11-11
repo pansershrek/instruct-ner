@@ -27,7 +27,7 @@
     "only_target_loss": false,
     "model_name": "mistralai/Mistral-7B-Instruct-v0.1",
     "is_adapter": false,
-    "max_source_tokens_count": 512,
+    "max_source_tokens_count": 256,
     "max_target_tokens_count": 512
 }
 
