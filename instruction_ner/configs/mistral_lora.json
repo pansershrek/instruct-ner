@@ -7,8 +7,8 @@
         "save_strategy": "epoch",
         "num_train_epochs": 8,
         "lr_scheduler_type": "linear",
-        "warmup_steps": 50,
-        "fp16": false,
+        "warmup_steps": 100,
+        "fp16": true,
         "bf16": false,
         "torch_compile": false,
         "optim": "adamw_torch"
