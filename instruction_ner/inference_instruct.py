@@ -25,12 +25,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_name", default='conll2003', type=str, help='name of dataset')
     parser.add_argument("--data_path", default='data/rudrec/rudrec_annotated.json', type=str, help='train file_path')
-    parser.add_argument("--model_type", default='marx', type=str, help='model type')
-    parser.add_argument("--model_name", default='acrastt/Marx-3B-V2', type=str, help='model name from hf')
-    parser.add_argument("--prediction_path", default='marx_prediction.json', type=str, help='path for saving prediction')
+    parser.add_argument("--model_type", default='mistral', type=str, help='model type')
+    parser.add_argument("--model_name", default='mistralai/Mistral-7B-Instruct-v0.1', type=str, help='model name from hf')
+    parser.add_argument("--prediction_path", default='mistral_prediction.json', type=str, help='path for saving prediction')
     parser.add_argument("--max_instances", default=-1, type=int, help='max number of instruction')
     parser.add_argument("--batch_size", default=1, type=int, help='number of instructions in batch')
-    parser.add_argument("--peft_config", default="/home/admin/instruct-ner/instruction_ner/marx_models/checkpoint-872", type=str, help="Path to peft config")
+    parser.add_argument("--peft_config", default="/home/admin/instruct-ner/instruction_ner/mistral_models/checkpoint-872", type=str, help="Path to peft config")
     arguments = parser.parse_args()
     arguments.batch_size = 1
     # assert arguments.dataset_name in SUPPORTED_DATASETS, f'expected dataset name from {SUPPORTED_DATASETS}'
