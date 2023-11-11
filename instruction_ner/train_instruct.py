@@ -145,7 +145,7 @@ def train(
         else:
             model = model_classes[model_type]['model'].from_pretrained(
                 model_name,
-                load_in_8bit=True,
+                #load_in_8bit=True,
                 device_map='cuda:0',
                 #use_flash_attention_2=True
             )

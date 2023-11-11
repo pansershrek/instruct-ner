@@ -8,7 +8,7 @@
         "num_train_epochs": 8,
         "lr_scheduler_type": "linear",
         "warmup_steps": 50,
-        "fp16": true,
+        "fp16": false,
         "bf16": false,
         "torch_compile": false,
         "optim": "adamw_torch"
@@ -27,7 +27,7 @@
     "only_target_loss": false,
     "model_name": "acrastt/Marx-3B-V2",
     "is_adapter": false,
-    "max_source_tokens_count": 256,
+    "max_source_tokens_count": 512,
     "max_target_tokens_count": 512
 }
 
