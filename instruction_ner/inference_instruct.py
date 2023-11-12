@@ -25,12 +25,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_name", default='conll2003', type=str, help='name of dataset')
     parser.add_argument("--data_path", default='data/rudrec/rudrec_annotated.json', type=str, help='train file_path')
-    parser.add_argument("--model_type", default='mistral', type=str, help='model type')
-    parser.add_argument("--model_name", default='mistralai/Mistral-7B-Instruct-v0.1', type=str, help='model name from hf')
-    parser.add_argument("--prediction_path", default='mistral_prediction.json', type=str, help='path for saving prediction')
+    parser.add_argument("--model_type", default='marx', type=str, help='model type')
+    parser.add_argument("--model_name", default='acrastt/Marx-3B-V2', type=str, help='model name from hf')
+    parser.add_argument("--prediction_path", default='marx_prediction.json', type=str, help='path for saving prediction')
     parser.add_argument("--max_instances", default=-1, type=int, help='max number of instruction')
     parser.add_argument("--batch_size", default=1, type=int, help='number of instructions in batch')
-    parser.add_argument("--peft_config", default="/home/admin/instruct-ner/instruction_ner/mistral_models/checkpoint-872", type=str, help="Path to peft config")
+    parser.add_argument("--peft_config", default="/home/admin/instruct-ner/instruction_ner/marx_model_32/checkpoint-872", type=str, help="Path to peft config")
     arguments = parser.parse_args()
     arguments.batch_size = 1
     # assert arguments.dataset_name in SUPPORTED_DATASETS, f'expected dataset name from {SUPPORTED_DATASETS}'
@@ -113,30 +113,31 @@ if __name__ == "__main__":
 
     for source in tqdm(sources):
         input_ids = tokenizer(source, return_tensors="pt", padding=True)["input_ids"].cuda()
-        generation_config = GenerationConfig(
-            temperature=0.1,
-            top_p=0.75,
-            top_k=40,
-            num_beams=4,
-            early_stopping = True,
-            no_repeat_ngram_size = 3,
-            penalty_alpha = 0.6,
-            #epsilon_cutoff = 0.1,
-            length_penalty = -10,
-            eos_token_id=tokenizer.eos_token_id,
-            bos_token_id=tokenizer.bos_token_id,
-            return_dict_in_generate=True,
-            output_scores=True,
-            max_new_tokens=64,
-            input_ids=input_ids
-        )
+        # generation_config = GenerationConfig(
+        #     temperature=0.1,
+        #     top_p=0.75,
+        #     top_k=40,
+        #     num_beams=4,
+        #     early_stopping = True,
+        #     no_repeat_ngram_size = 3,
+        #     penalty_alpha = 0.6,
+        #     #epsilon_cutoff = 0.1,
+        #     length_penalty = -10,
+        #     eos_token_id=tokenizer.eos_token_id,
+        #     bos_token_id=tokenizer.bos_token_id,
+        #     return_dict_in_generate=True,
+        #     output_scores=True,
+        #     max_new_tokens=64,
+        #     input_ids=input_ids
+        # )
+        generation_config = GenerationConfig.from_pretrained(arguments.model_name)
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
                 generation_config=generation_config,
                 return_dict_in_generate=True,
-                eos_token_id=tokenizer.eos_token_id,
-                early_stopping=True,
+                #eos_token_id=tokenizer.eos_token_id,
+                #early_stopping=True,
             )
         for s in generation_output.sequences:
             string_output = tokenizer.decode(s, skip_special_tokens=True)

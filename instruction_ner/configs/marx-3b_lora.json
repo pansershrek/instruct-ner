@@ -23,7 +23,7 @@
         ],
         "task_type": "CAUSAL_LM"
     },
-    "load_in_8bit": true,
+    "load_in_8bit": false,
     "only_target_loss": false,
     "model_name": "acrastt/Marx-3B-V2",
     "is_adapter": false,
